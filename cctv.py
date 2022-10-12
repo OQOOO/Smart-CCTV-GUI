@@ -24,10 +24,8 @@ class WindowClass(QMainWindow, form_class) :
         self.normal_Mode_Widget.hide()
         self.guard_Mode_Widget.hide()
 
-        # 초기 변수
+        # 변수 선언
         self.killSwitch = 0 # 반복문 제어용 변수
-
-        # 변수 받기
         self.maskWearNum = 0 # 마스크 쓴사람
         self.maskNotWearNum = 0 # 마스크 안쓴사람
         self.movement = False # 움직임 변수
