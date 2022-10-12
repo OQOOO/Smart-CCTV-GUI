@@ -52,14 +52,14 @@ class WindowClass(QMainWindow, form_class) :
         self.출력할위젯objectName값.setText(str(1))
     '''
 
-    # 모드선택. 반복문 중단 역할도 함
+    ## 모드선택. 반복문 중단 역할도 함
     def modeSelect(self):
         self.killSwitch = 1
         self.normal_Mode_Widget.hide()
         self.guard_Mode_Widget.hide()
         self.mode_Select_Widget.show()
 
-    # /* 일반모드 #######################################################
+    ## /* 일반모드 #######################################################
 
     def normalProcess(self):
         while True:
@@ -95,9 +95,9 @@ class WindowClass(QMainWindow, form_class) :
 
             # ↑ 숫자형일 경우 {str(self.변수명)} 형태로 삽입
 
-    # */ #######################################################
+    ## */ #######################################################
 
-    # /* 경계모드 #######################################################
+    ## /* 경계모드 #######################################################
 
     def guardProcess(self):
         while True:
@@ -129,7 +129,7 @@ class WindowClass(QMainWindow, form_class) :
         self.gt = threading.Thread(target=self.guardProcess,args=())
         self.gt.start()
 
-    # */ #######################################################
+    ## */ #######################################################
 
 if __name__ == "__main__" :
     app = QApplication(sys.argv)
