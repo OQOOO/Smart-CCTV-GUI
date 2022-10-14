@@ -1,1 +1,1 @@
-# smart-CCTV-GUI
+# Smart-CCTV-GUI
