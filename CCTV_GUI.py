@@ -6,22 +6,20 @@ from PyQt5.QtGui import QPalette, QColor
 from PyQt5.QtCore import Qt
 
 import threading
-import random
 import time
 
-<<<<<<< HEAD
-=======
+import random # 임시 표시용
 
->>>>>>> 6cf144399c4ea3f6734ff0996d9147e1411eea97
 
 # UI파일 연결
-form_class = uic.loadUiType("cctv.ui")[0]
+form_class = uic.loadUiType("CCTV_GUI.ui")[0]
 
 # 화면을 띄우는데 사용되는 Class 선언
 class WindowClass(QMainWindow, form_class) :
     def __init__(self) :
         super().__init__()
         self.setupUi(self)
+
         # 초기 화면 설정
         self.normal_Mode_Widget.hide()
         self.guard_Mode_Widget.hide()
@@ -49,11 +47,6 @@ class WindowClass(QMainWindow, form_class) :
 
 
 	# 작동시킬 함수들 작성
-    ''' ex)
-    def 작동시킬함수(self):
-        self.출력할위젯objectName값.setText(str(1))
-    '''
-
     ## 모드선택. 반복문 중단 역할도 함
     def modeSelect(self):
         self.killSwitch = 1
@@ -62,15 +55,14 @@ class WindowClass(QMainWindow, form_class) :
         self.mode_Select_Widget.show()
 
     ## /* 일반모드 #######################################################
-
     def normalProcess(self):
         while True:
             if self.killSwitch:
                 break
 
             # 마스크 유무 변수 받기
-            self.maskWearNum = random.randint(0, 15)
-            self.maskNotWearNum = random.randint(0, 15)
+            self.maskWearNum = random.randint(0, 15) # <<<<<<< 마스크 착용자 수 할당
+            self.maskNotWearNum = random.randint(0, 15) # <<<<<<< 마스크 미착용자 수 할당
 
             # 텍스트 출력
             self.maskWearersLabel.setText(f'''
@@ -92,21 +84,16 @@ class WindowClass(QMainWindow, form_class) :
         self.killSwitch = 0
         self.mode_Select_Widget.hide()
         self.normal_Mode_Widget.show()
-
         self.nt = threading.Thread(target=self.normalProcess,args=())
         self.nt.start()
-
-            # ↑ 숫자형일 경우 {str(self.변수명)} 형태로 삽입
-
-    ## */ #######################################################
+    ## */ ###############################################################
 
     ## /* 경계모드 #######################################################
-
     def guardProcess(self):
         while True:
             if self.killSwitch:
                 break
-            self.movement = random.randint(0, 1) # 움직임 변수 받기
+            self.movement = random.randint(0, 1) # <<<<<<< 움직임 여부 할당
             
             if self.movement == True:
                 self.movementLabel.setText('''
@@ -131,13 +118,12 @@ class WindowClass(QMainWindow, form_class) :
         self.guard_Mode_Widget.show()
         self.gt = threading.Thread(target=self.guardProcess,args=())
         self.gt.start()
-
-    ## */ #######################################################
+    ## */ ###############################################################
 
 if __name__ == "__main__" :
     app = QApplication(sys.argv)
 
-    app.setStyle("Fusion")
+    app.setStyle("Fusion") # GUI 외관
     palette = QPalette()
     palette.setColor(QPalette.Window, QColor(53, 53, 53))
     palette.setColor(QPalette.WindowText, Qt.white)
