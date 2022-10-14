@@ -28,7 +28,7 @@ class WindowClass(QMainWindow, form_class) :
     def testImg(self):
         img_url = 'C:\\Users\igh07\OneDrive\바탕 화면\smartCCTV\\tImg.png'
         qPixmapVar.load(img_url)
-        self.widget.setPixmap(qPixmapVar)
+        self.imgTest.setPixmap(qPixmapVar)
 
 if __name__ == "__main__" :
     app = QApplication(sys.argv) 
