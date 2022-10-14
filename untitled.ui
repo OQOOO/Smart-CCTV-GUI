@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>295</height>
+    <width>770</width>
+    <height>539</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -37,6 +37,19 @@
    </property>
    <property name="text">
     <string>loopBreak</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="imgTest">
+   <property name="geometry">
+    <rect>
+     <x>70</x>
+     <y>130</y>
+     <width>641</width>
+     <height>361</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>TextLabel</string>
    </property>
   </widget>
  </widget>

@@ -9,6 +9,10 @@ import threading
 import random
 import time
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 6cf144399c4ea3f6734ff0996d9147e1411eea97
 
 # UI파일 연결
 form_class = uic.loadUiType("cctv.ui")[0]
@@ -61,6 +65,9 @@ class WindowClass(QMainWindow, form_class) :
 
     def normalProcess(self):
         while True:
+            if self.killSwitch:
+                break
+
             # 마스크 유무 변수 받기
             self.maskWearNum = random.randint(0, 15)
             self.maskNotWearNum = random.randint(0, 15)
@@ -76,12 +83,10 @@ class WindowClass(QMainWindow, form_class) :
             <html><head/><body><p><span style="
             font-family:'Malgun Gothic';
             font-size:13pt; 
-            color:#ff0000;
+            color:#ff5454;
             ">{str(self.maskNotWearNum)}</span></p></body></html>''')
             
             time.sleep(1)
-            if self.killSwitch:
-                break
 
     def normalMode(self):
         self.killSwitch = 0
@@ -99,15 +104,16 @@ class WindowClass(QMainWindow, form_class) :
 
     def guardProcess(self):
         while True:
+            if self.killSwitch:
+                break
             self.movement = random.randint(0, 1) # 움직임 변수 받기
-            time.sleep(1)
             
             if self.movement == True:
                 self.movementLabel.setText('''
                 <html><head/><body><p><span style="
                 font-family:'Malgun Gothic'; 
                 font-size:16pt; 
-                color:#ff0000;
+                color:#ff5454;
                 ">움직임 감지!!!</span></p></body></html>''')
             else:
                 self.movementLabel.setText('''
@@ -116,9 +122,8 @@ class WindowClass(QMainWindow, form_class) :
                 font-size:16pt; 
                 color:#00ff7f;
                 ">움직임 없음</span></p></body></html>''')
-        
-            if self.killSwitch:
-                break
+
+            time.sleep(1)
 
     def guardMode(self):
         self.killSwitch = 0
