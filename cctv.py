@@ -9,8 +9,6 @@ import threading
 import random
 import time
 
-from test import ModeSelection
-
 
 # UI파일 연결
 form_class = uic.loadUiType("cctv.ui")[0]
@@ -76,7 +74,7 @@ class WindowClass(QMainWindow, form_class) :
             ">{str(self.maskWearNum)}</span></p></body></html>''')
             self.maskNotWearersLabel.setText(f'''
             <html><head/><body><p><span style="
-            font-family:'Malgun Gothic'; 
+            font-family:'Malgun Gothic';
             font-size:13pt; 
             color:#ff0000;
             ">{str(self.maskNotWearNum)}</span></p></body></html>''')
