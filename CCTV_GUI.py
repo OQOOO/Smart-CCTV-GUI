@@ -7,8 +7,10 @@ from PyQt5.QtCore import Qt
 
 import threading
 import time
-
 import random # 임시 표시용
+
+from PyQt5.QtGui import QPixmap
+from PyQt5.QtGui import QMovie
 
 
 # UI파일 연결
@@ -19,6 +21,10 @@ class WindowClass(QMainWindow, form_class) :
     def __init__(self) :
         super().__init__()
         self.setupUi(self)
+
+        # test
+        self.pt = threading.Thread(target=self.picture,args=())
+        self.pt.start()
 
         # 초기 화면 설정
         self.normal_Mode_Widget.hide()
@@ -119,6 +125,23 @@ class WindowClass(QMainWindow, form_class) :
         self.gt = threading.Thread(target=self.guardProcess,args=())
         self.gt.start()
     ## */ ###############################################################
+    def picture(self):
+        while True:
+            if self.killSwitch:
+                break
+            pixmap = QPixmap('test1.jpg')
+            pixmap = pixmap.scaledToWidth(200)
+            self.pLabel.setPixmap(pixmap)
+            time.sleep(1)
+            pixmap = QPixmap('test2.jpg')
+            pixmap = pixmap.scaledToWidth(200)
+            self.pLabel.setPixmap(pixmap)
+            time.sleep(1)
+            pixmap = QPixmap('test3.png')
+            pixmap = pixmap.scaledToWidth(200)
+            self.pLabel.setPixmap(pixmap)
+            time.sleep(1)
+
 
 if __name__ == "__main__" :
     app = QApplication(sys.argv)

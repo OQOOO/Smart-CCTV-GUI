@@ -217,6 +217,19 @@
     <string>종료</string>
    </property>
   </widget>
+  <widget class="QLabel" name="pLabel">
+   <property name="geometry">
+    <rect>
+     <x>260</x>
+     <y>270</y>
+     <width>621</width>
+     <height>291</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>pLabel</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>
