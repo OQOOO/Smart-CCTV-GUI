@@ -22,7 +22,7 @@ class WindowClass(QMainWindow, form_class) :
         super().__init__()
         self.setupUi(self)
 
-        # test
+        # ImgDisplayTest
         self.pt = threading.Thread(target=self.picture,args=())
         self.pt.start()
 
@@ -130,15 +130,15 @@ class WindowClass(QMainWindow, form_class) :
             if self.killSwitch:
                 break
             pixmap = QPixmap('test1.jpg')
-            pixmap = pixmap.scaledToWidth(200)
+            pixmap = pixmap.scaledToWidth(500)
             self.pLabel.setPixmap(pixmap)
             time.sleep(1)
             pixmap = QPixmap('test2.jpg')
-            pixmap = pixmap.scaledToWidth(200)
+            pixmap = pixmap.scaledToWidth(500)
             self.pLabel.setPixmap(pixmap)
             time.sleep(1)
             pixmap = QPixmap('test3.png')
-            pixmap = pixmap.scaledToWidth(200)
+            pixmap = pixmap.scaledToWidth(500)
             self.pLabel.setPixmap(pixmap)
             time.sleep(1)
 
