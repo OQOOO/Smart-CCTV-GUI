@@ -22,13 +22,10 @@ class WindowClass(QMainWindow, form_class) :
         super().__init__()
         self.setupUi(self)
 
-        # ImgDisplayTest
-        self.pt = threading.Thread(target=self.picture,args=())
-        self.pt.start()
-
         # 초기 화면 설정
         self.normal_Mode_Widget.hide()
         self.guard_Mode_Widget.hide()
+        self.pLabel.hide()
 
         # 변수 선언
         self.killSwitch = 0 # 반복문 제어용 변수
@@ -58,6 +55,7 @@ class WindowClass(QMainWindow, form_class) :
         self.killSwitch = 1
         self.normal_Mode_Widget.hide()
         self.guard_Mode_Widget.hide()
+        self.pLabel.hide()
         self.mode_Select_Widget.show()
 
     ## /* 일반모드 #######################################################
@@ -90,8 +88,10 @@ class WindowClass(QMainWindow, form_class) :
         self.killSwitch = 0
         self.mode_Select_Widget.hide()
         self.normal_Mode_Widget.show()
+        self.pLabel.show()
         self.nt = threading.Thread(target=self.normalProcess,args=())
         self.nt.start()
+        threading.Thread(target=self.camera,args=()).start()
     ## */ ###############################################################
 
     ## /* 경계모드 #######################################################
@@ -122,10 +122,12 @@ class WindowClass(QMainWindow, form_class) :
         self.killSwitch = 0
         self.mode_Select_Widget.hide()
         self.guard_Mode_Widget.show()
+        self.pLabel.show()
         self.gt = threading.Thread(target=self.guardProcess,args=())
         self.gt.start()
+        threading.Thread(target=self.camera,args=()).start()
     ## */ ###############################################################
-    def picture(self):
+    def camera(self):
         while True:
             if self.killSwitch:
                 break
