@@ -68,7 +68,7 @@ class WindowClass(QMainWindow, form_class) :
             self.maskWearNum = random.randint(0, 15) # <<<<<<< 마스크 착용자 수 할당
             self.maskNotWearNum = random.randint(0, 15) # <<<<<<< 마스크 미착용자 수 할당
 
-            # 텍스트 출력
+            # 마스크 착용, 미착용자 수 출력
             self.maskWearersLabel.setText(f'''
             <html><head/><body><p><span style="
             font-family:'Malgun Gothic'; 
@@ -81,6 +81,37 @@ class WindowClass(QMainWindow, form_class) :
             font-size:13pt; 
             color:#ff5454;
             ">{str(self.maskNotWearNum)}</span></p></body></html>''')
+            
+            # 마스크 착용률 출력
+            ## 인원 수 계산
+            totalPeopleNum = self.maskWearNum + self.maskNotWearNum
+            ## 인원이 있다면
+            if totalPeopleNum:
+                self.maskWearRate = int(self.maskWearNum / (totalPeopleNum) * 100)
+                ## 비율이 x% 이상일 때
+                if self.maskWearRate > 50:
+                    self.maskRateLabel.setText(f'''
+                    <html><head/><body><p><span style="
+                    font-family:'Malgun Gothic'; 
+                    font-size:17pt; 
+                    color:#00ff7f;
+                    ">{str(self.maskWearRate) + '%'}</span></p></body></html>''')
+                else:
+                    self.maskRateLabel.setText(f'''
+                    <html><head/><body><p><span style="
+                    font-family:'Malgun Gothic'; 
+                    font-size:17pt; 
+                    color:#ff5454;
+                    ">{str(self.maskWearRate) + '%'}</span></p></body></html>''')
+            ## 인원이 없다면
+            else:
+                self.maskWearRate = "인원 없음"
+                self.maskRateLabel.setText(f'''
+                <html><head/><body><p><span style="
+                font-family:'Malgun Gothic'; 
+                font-size:13pt; 
+                color:white;
+                ">{self.maskWearRate}</span></p></body></html>''')            
             
             time.sleep(1)
 
