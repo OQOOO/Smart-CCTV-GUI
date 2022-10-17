@@ -11,6 +11,7 @@ import random # 임시 표시용
 
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtGui import QMovie
+import pyqtgraph as pg
 
 
 # UI파일 연결
@@ -32,6 +33,13 @@ class WindowClass(QMainWindow, form_class) :
         self.maskWearNum = 0 # 마스크 쓴사람
         self.maskNotWearNum = 0 # 마스크 안쓴사람
         self.movement = False # 움직임 변수
+
+        self.x_list = [i for i in range(0, 24)]
+        self.y_list = [0 for i in range(0, 24)]
+        self.timeCount = 0
+
+        # graph Test
+        self.showGraph()
         
         # 버튼 시그널
         ## 모드선택화면 위젯 시그널
@@ -103,7 +111,6 @@ class WindowClass(QMainWindow, form_class) :
                     font-size:17pt; 
                     color:#ff5454;
                     ">{str(self.maskWearRate) + '%'}</span></p></body></html>''')
-            ## 인원이 없다면
             else:
                 self.maskWearRate = "인원 없음"
                 self.maskRateLabel.setText(f'''
@@ -112,6 +119,16 @@ class WindowClass(QMainWindow, form_class) :
                 font-size:13pt; 
                 color:white;
                 ">{self.maskWearRate}</span></p></body></html>''')            
+            
+            self.timeCount += 1
+            if self.timeCount == 24:
+                self.timeCount = 0
+                self.y_list = [0 for i in range(0, 24)]
+            if self.maskWearRate == "인원 없음":
+                pass
+            else:
+                self.y_list[self.timeCount] = self.maskWearRate
+            self.showGraph()
             
             time.sleep(1)
 
@@ -174,6 +191,14 @@ class WindowClass(QMainWindow, form_class) :
             pixmap = pixmap.scaledToWidth(500)
             self.pLabel.setPixmap(pixmap)
             time.sleep(1)
+
+    def showGraph(self):
+
+        self.graphWidget.setBackground((255,255,255,0))
+        self.graphWidget.clear()
+        self.graphWidget.plot(self.x_list, self.y_list, pen=pg.mkPen(color='#2196F3', width=1))
+
+    	
 
 
 if __name__ == "__main__" :
