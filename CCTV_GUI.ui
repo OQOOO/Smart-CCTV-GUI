@@ -187,7 +187,7 @@
      <x>640</x>
      <y>10</y>
      <width>301</width>
-     <height>221</height>
+     <height>231</height>
     </rect>
    </property>
    <widget class="QPushButton" name="mode_Select_Button_2">
@@ -249,7 +249,7 @@
   <widget class="QLabel" name="pLabel">
    <property name="geometry">
     <rect>
-     <x>260</x>
+     <x>130</x>
      <y>250</y>
      <width>621</width>
      <height>351</height>
@@ -259,7 +259,28 @@
     <string>pLabel</string>
    </property>
   </widget>
+  <widget class="PlotWidget" name="graphWidget" native="true">
+   <property name="geometry">
+    <rect>
+     <x>620</x>
+     <y>270</y>
+     <width>411</width>
+     <height>291</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
+   </property>
+  </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>PlotWidget</class>
+   <extends>QWidget</extends>
+   <header location="global">pyqtgraph</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>
