@@ -108,7 +108,7 @@ class WindowClass(QMainWindow, form_class) :
             if len(self.maskRateList) == 60:
                 self.maskRateList.pop(0)
                            
-            time.sleep(0.5)
+            time.sleep(0.3)
 
     def normalMode(self):
         self.killSwitch = 0
@@ -150,14 +150,14 @@ class WindowClass(QMainWindow, form_class) :
             pixmap = pixmap.scaledToWidth(700)
             self.pLabel.setPixmap(pixmap)
             time.sleep(1)
-            pixmap = QPixmap('test2.jpg')
+            '''pixmap = QPixmap('test2.jpg')
             pixmap = pixmap.scaledToWidth(700)
             self.pLabel.setPixmap(pixmap)
             time.sleep(1)
             pixmap = QPixmap('test3.png')
             pixmap = pixmap.scaledToWidth(700)
             self.pLabel.setPixmap(pixmap)
-            time.sleep(1)
+            time.sleep(1)'''
 
 if __name__ == "__main__" :
     app = QApplication(sys.argv)
