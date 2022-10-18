@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1064</width>
-    <height>624</height>
+    <height>732</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,45 +19,45 @@
   <widget class="QWidget" name="mode_Select_Widget" native="true">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>10</y>
-     <width>301</width>
-     <height>221</height>
+     <x>-10</x>
+     <y>0</y>
+     <width>481</width>
+     <height>291</height>
     </rect>
    </property>
-   <widget class="QPushButton" name="normal_Mode_Button">
-    <property name="geometry">
-     <rect>
-      <x>50</x>
-      <y>80</y>
-      <width>91</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>일반모드</string>
-    </property>
-   </widget>
    <widget class="QPushButton" name="guard_Mode_Button">
     <property name="geometry">
      <rect>
-      <x>160</x>
-      <y>80</y>
-      <width>91</width>
-      <height>41</height>
+      <x>180</x>
+      <y>20</y>
+      <width>131</width>
+      <height>61</height>
      </rect>
     </property>
     <property name="text">
      <string>경계모드</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="normal_Mode_Button">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>20</y>
+      <width>131</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>일반모드</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QWidget" name="normal_Mode_Widget" native="true">
    <property name="geometry">
     <rect>
-     <x>330</x>
+     <x>740</x>
      <y>10</y>
-     <width>401</width>
+     <width>301</width>
      <height>361</height>
     </rect>
    </property>
@@ -214,7 +214,7 @@
    <property name="geometry">
     <rect>
      <x>740</x>
-     <y>10</y>
+     <y>380</y>
      <width>301</width>
      <height>231</height>
     </rect>
@@ -265,10 +265,10 @@
   <widget class="QPushButton" name="endButton">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>240</y>
-     <width>91</width>
-     <height>31</height>
+     <x>10</x>
+     <y>680</y>
+     <width>111</width>
+     <height>41</height>
     </rect>
    </property>
    <property name="text">
@@ -278,16 +278,21 @@
   <widget class="QLabel" name="pLabel">
    <property name="geometry">
     <rect>
-     <x>190</x>
-     <y>310</y>
-     <width>571</width>
-     <height>281</height>
+     <x>20</x>
+     <y>80</y>
+     <width>701</width>
+     <height>461</height>
     </rect>
    </property>
    <property name="text">
     <string>pLabel</string>
    </property>
   </widget>
+  <zorder>pLabel</zorder>
+  <zorder>mode_Select_Widget</zorder>
+  <zorder>normal_Mode_Widget</zorder>
+  <zorder>guard_Mode_Widget</zorder>
+  <zorder>endButton</zorder>
  </widget>
  <resources/>
  <connections/>

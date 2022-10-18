@@ -49,14 +49,15 @@ class WindowClass(QMainWindow, form_class) :
         self.endButton.clicked.connect(self.modeSelect)
         self.endButton.clicked.connect(QCoreApplication.instance().quit)
 
-    def fontSet(self, font, size, color, text):
-        fontset = f'''
+    # 폰트 설정 함수
+    def textSet(self, font, size, color, text):
+        textSet = f'''
             <html><head/><body><p><span style="
             font-family:{font}; 
             font-size:{size}pt; 
             color:{color};
             ">{str(text)}</span></p></body></html>'''
-        return fontset
+        return textSet
 
 	# 작동시킬 함수들 작성
     ## 모드선택. 반복문 중단 역할도 함
@@ -71,6 +72,7 @@ class WindowClass(QMainWindow, form_class) :
     def normalProcess(self):
         while True:
             if self.killSwitch:
+                self.maskRateList.clear()
                 break
 
             # 마스크 유무 변수 받기
@@ -78,8 +80,8 @@ class WindowClass(QMainWindow, form_class) :
             self.maskNotWearNum = random.randint(0, 10) # <<<<<<< 마스크 미착용자 수 할당
 
             # 마스크 착용, 미착용자 수 출력             #글씨체, 크기, 색, 내용
-            self.maskWearersLabel.setText(self.fontSet('Malgun Gothic', 13, '#00ff7f', self.maskWearNum))
-            self.maskNotWearersLabel.setText(self.fontSet('Malgun Gothic', 13, '#ff5454', self.maskNotWearNum))
+            self.maskWearersLabel.setText(self.textSet('Malgun Gothic', 13, '#00ff7f', self.maskWearNum))
+            self.maskNotWearersLabel.setText(self.textSet('Malgun Gothic', 13, '#ff5454', self.maskNotWearNum))
             
             # 마스크 착용률 출력
             ## 인원 수 계산
@@ -89,19 +91,19 @@ class WindowClass(QMainWindow, form_class) :
                 self.maskWearRate = int(self.maskWearNum / (totalPeopleNum) * 100)
                 ## 비율이 x% 이상일 때
                 if 70 <= self.maskWearRate:
-                    self.maskRateLabel.setText(self.fontSet('Malgun Gothic', 17, '#00ff7f', str(self.maskWearRate) + '%'))
+                    self.maskRateLabel.setText(self.textSet('Malgun Gothic', 17, '#00ff7f', str(self.maskWearRate) + '%'))
                 elif 50 <= self.maskWearRate < 70:
-                    self.maskRateLabel.setText(self.fontSet('Malgun Gothic', 17, '#ffff7f', str(self.maskWearRate) + '%'))
+                    self.maskRateLabel.setText(self.textSet('Malgun Gothic', 17, '#ffff7f', str(self.maskWearRate) + '%'))
                 else:
-                    self.maskRateLabel.setText(self.fontSet('Malgun Gothic', 17, '#ff5454', str(self.maskWearRate) + '%'))
+                    self.maskRateLabel.setText(self.textSet('Malgun Gothic', 17, '#ff5454', str(self.maskWearRate) + '%'))
             else:
                 self.maskWearRate = 100
-                self.maskRateLabel.setText(self.fontSet('Malgun Gothic', 13, 'white', "인원 없음"))
+                self.maskRateLabel.setText(self.textSet('Malgun Gothic', 13, 'white', "인원 없음"))
 
             # N분 평균 착용자 수
             self.maskRateList.append(self.maskWearRate)
             maskWearAverage = int(sum(self.maskRateList)/len(self.maskRateList))
-            self.maskWearAverageLabel.setText(self.fontSet('Malgun Gothic', 17, 'white', str(maskWearAverage) + '%'))
+            self.maskWearAverageLabel.setText(self.textSet('Malgun Gothic', 17, 'white', str(maskWearAverage) + '%'))
 
             if len(self.maskRateList) == 60:
                 self.maskRateList.pop(0)
@@ -125,9 +127,9 @@ class WindowClass(QMainWindow, form_class) :
             self.movement = random.randint(0, 1) # <<<<<<< 움직임 여부 할당
             
             if self.movement == True:
-                self.movementLabel.setText(self.fontSet('Malgun Gothic', 16, '#ff5454', '움직임 감지!!!'))
+                self.movementLabel.setText(self.textSet('Malgun Gothic', 16, '#ff5454', '움직임 감지!!!'))
             else:
-                self.movementLabel.setText(self.fontSet('Malgun Gothic', 16, '#00ff7f', '움직임 없음'))
+                self.movementLabel.setText(self.textSet('Malgun Gothic', 16, '#00ff7f', '움직임 없음'))
 
             time.sleep(1)
 
@@ -139,20 +141,21 @@ class WindowClass(QMainWindow, form_class) :
         threading.Thread(target=self.guardProcess,args=()).start()
         threading.Thread(target=self.camera,args=()).start()
     ## */ ###############################################################
+
     def camera(self):
         while True:
             if self.killSwitch:
                 break
             pixmap = QPixmap('test1.jpg')
-            pixmap = pixmap.scaledToWidth(500)
+            pixmap = pixmap.scaledToWidth(700)
             self.pLabel.setPixmap(pixmap)
             time.sleep(1)
             pixmap = QPixmap('test2.jpg')
-            pixmap = pixmap.scaledToWidth(500)
+            pixmap = pixmap.scaledToWidth(700)
             self.pLabel.setPixmap(pixmap)
             time.sleep(1)
             pixmap = QPixmap('test3.png')
-            pixmap = pixmap.scaledToWidth(500)
+            pixmap = pixmap.scaledToWidth(700)
             self.pLabel.setPixmap(pixmap)
             time.sleep(1)
 
