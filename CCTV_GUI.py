@@ -11,7 +11,6 @@ import random # 임시 표시용
 
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtGui import QMovie
-import pyqtgraph as pg
 
 
 # UI파일 연결
@@ -38,9 +37,6 @@ class WindowClass(QMainWindow, form_class) :
         self.y_list = [0 for i in range(0, 24)]
         self.timeCount = 0
 
-        # graph Test
-        self.showGraph()
-        
         # 버튼 시그널
         ## 모드선택화면 위젯 시그널
         self.normal_Mode_Button.clicked.connect(self.normalMode) # 일반모드
@@ -55,6 +51,15 @@ class WindowClass(QMainWindow, form_class) :
         ## 종료버튼
         self.endButton.clicked.connect(self.modeSelect)
         self.endButton.clicked.connect(QCoreApplication.instance().quit)
+
+    def fontSet(self, font, size, color, text):
+        fontset = f'''
+            <html><head/><body><p><span style="
+            font-family:{font}; 
+            font-size:{size}pt; 
+            color:{color};
+            ">{str(text)}</span></p></body></html>'''
+        return fontset
 
 
 	# 작동시킬 함수들 작성
@@ -73,22 +78,12 @@ class WindowClass(QMainWindow, form_class) :
                 break
 
             # 마스크 유무 변수 받기
-            self.maskWearNum = random.randint(0, 15) # <<<<<<< 마스크 착용자 수 할당
-            self.maskNotWearNum = random.randint(0, 15) # <<<<<<< 마스크 미착용자 수 할당
+            self.maskWearNum = random.randint(0, 10) # <<<<<<< 마스크 착용자 수 할당
+            self.maskNotWearNum = random.randint(0, 10) # <<<<<<< 마스크 미착용자 수 할당
 
             # 마스크 착용, 미착용자 수 출력
-            self.maskWearersLabel.setText(f'''
-            <html><head/><body><p><span style="
-            font-family:'Malgun Gothic'; 
-            font-size:13pt; 
-            color:#00ff7f;
-            ">{str(self.maskWearNum)}</span></p></body></html>''')
-            self.maskNotWearersLabel.setText(f'''
-            <html><head/><body><p><span style="
-            font-family:'Malgun Gothic';
-            font-size:13pt; 
-            color:#ff5454;
-            ">{str(self.maskNotWearNum)}</span></p></body></html>''')
+            self.maskWearersLabel.setText(self.fontSet('Malgun Gothic', 13, '#00ff7f', self.maskWearNum))
+            self.maskNotWearersLabel.setText(self.fontSet('Malgun Gothic', 13, '#ff5454', self.maskNotWearNum))
             
             # 마스크 착용률 출력
             ## 인원 수 계산
@@ -97,40 +92,17 @@ class WindowClass(QMainWindow, form_class) :
             if totalPeopleNum:
                 self.maskWearRate = int(self.maskWearNum / (totalPeopleNum) * 100)
                 ## 비율이 x% 이상일 때
-                if self.maskWearRate > 50:
-                    self.maskRateLabel.setText(f'''
-                    <html><head/><body><p><span style="
-                    font-family:'Malgun Gothic'; 
-                    font-size:17pt; 
-                    color:#00ff7f;
-                    ">{str(self.maskWearRate) + '%'}</span></p></body></html>''')
+                if 70 <= self.maskWearRate:
+                    self.maskRateLabel.setText(self.fontSet('Malgun Gothic', 17, '#00ff7f', str(self.maskWearRate) + '%'))
+                elif 50 <= self.maskWearRate < 70:
+                    self.maskRateLabel.setText(self.fontSet('Malgun Gothic', 17, '#ffff7f', str(self.maskWearRate) + '%'))
                 else:
-                    self.maskRateLabel.setText(f'''
-                    <html><head/><body><p><span style="
-                    font-family:'Malgun Gothic'; 
-                    font-size:17pt; 
-                    color:#ff5454;
-                    ">{str(self.maskWearRate) + '%'}</span></p></body></html>''')
+                    self.maskRateLabel.setText(self.fontSet('Malgun Gothic', 17, '#ff5454', str(self.maskWearRate) + '%'))
             else:
                 self.maskWearRate = "인원 없음"
-                self.maskRateLabel.setText(f'''
-                <html><head/><body><p><span style="
-                font-family:'Malgun Gothic'; 
-                font-size:13pt; 
-                color:white;
-                ">{self.maskWearRate}</span></p></body></html>''')            
-            
-            self.timeCount += 1
-            if self.timeCount == 24:
-                self.timeCount = 0
-                self.y_list = [0 for i in range(0, 24)]
-            if self.maskWearRate == "인원 없음":
-                pass
-            else:
-                self.y_list[self.timeCount] = self.maskWearRate
-            self.showGraph()
-            
-            time.sleep(1)
+                self.maskRateLabel.setText(self.fontSet('Malgun Gothic', 13, 'white', self.maskWearRate))
+                           
+            time.sleep(0.5)
 
     def normalMode(self):
         self.killSwitch = 0
@@ -150,19 +122,9 @@ class WindowClass(QMainWindow, form_class) :
             self.movement = random.randint(0, 1) # <<<<<<< 움직임 여부 할당
             
             if self.movement == True:
-                self.movementLabel.setText('''
-                <html><head/><body><p><span style="
-                font-family:'Malgun Gothic'; 
-                font-size:16pt; 
-                color:#ff5454;
-                ">움직임 감지!!!</span></p></body></html>''')
+                self.movementLabel.setText(self.fontSet('Malgun Gothic', 16, '#ff5454', '움직임 감지!!!'))
             else:
-                self.movementLabel.setText('''
-                <html><head/><body><p><span style="
-                font-family:'Malgun Gothic'; 
-                font-size:16pt; 
-                color:#00ff7f;
-                ">움직임 없음</span></p></body></html>''')
+                self.movementLabel.setText(self.fontSet('Malgun Gothic', 16, '#00ff7f', '움직임 없음'))
 
             time.sleep(1)
 
@@ -192,18 +154,8 @@ class WindowClass(QMainWindow, form_class) :
             self.pLabel.setPixmap(pixmap)
             time.sleep(1)
 
-    def showGraph(self):
-
-        self.graphWidget.setBackground((255,255,255,0))
-        self.graphWidget.clear()
-        self.graphWidget.plot(self.x_list, self.y_list, pen=pg.mkPen(color='#2196F3', width=1))
-
-    	
-
-
 if __name__ == "__main__" :
     app = QApplication(sys.argv)
-
     app.setStyle("Fusion") # GUI 외관
     palette = QPalette()
     palette.setColor(QPalette.Window, QColor(53, 53, 53))
