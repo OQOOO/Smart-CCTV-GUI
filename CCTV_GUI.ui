@@ -58,7 +58,7 @@
      <x>330</x>
      <y>10</y>
      <width>301</width>
-     <height>221</height>
+     <height>231</height>
     </rect>
    </property>
    <widget class="QPushButton" name="mode_Select_Button">
@@ -151,6 +151,35 @@
      <enum>Qt::AutoText</enum>
     </property>
    </widget>
+   <widget class="QLabel" name="normalModeLabel_2">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>160</y>
+      <width>121</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-family:'Malgun Gothic';&quot;&gt;마스크 착용률 : &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="maskRateLabel">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>180</y>
+      <width>191</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-family:'Malgun Gothic'; font-size:17pt;&quot;&gt;0&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+    <property name="textFormat">
+     <enum>Qt::AutoText</enum>
+    </property>
+   </widget>
   </widget>
   <widget class="QWidget" name="guard_Mode_Widget" native="true">
    <property name="geometry">
@@ -158,7 +187,7 @@
      <x>640</x>
      <y>10</y>
      <width>301</width>
-     <height>221</height>
+     <height>231</height>
     </rect>
    </property>
    <widget class="QPushButton" name="mode_Select_Button_2">
@@ -217,7 +246,41 @@
     <string>종료</string>
    </property>
   </widget>
+  <widget class="QLabel" name="pLabel">
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>250</y>
+     <width>621</width>
+     <height>351</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>pLabel</string>
+   </property>
+  </widget>
+  <widget class="PlotWidget" name="graphWidget" native="true">
+   <property name="geometry">
+    <rect>
+     <x>620</x>
+     <y>270</y>
+     <width>411</width>
+     <height>291</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
+   </property>
+  </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>PlotWidget</class>
+   <extends>QWidget</extends>
+   <header location="global">pyqtgraph</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>
