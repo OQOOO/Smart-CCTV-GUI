@@ -32,10 +32,7 @@ class WindowClass(QMainWindow, form_class) :
         self.maskWearNum = 0 # 마스크 쓴사람
         self.maskNotWearNum = 0 # 마스크 안쓴사람
         self.movement = False # 움직임 변수
-
-        self.x_list = [i for i in range(0, 24)]
-        self.y_list = [0 for i in range(0, 24)]
-        self.timeCount = 0
+        self.maskRateList = []
 
         # 버튼 시그널
         ## 모드선택화면 위젯 시그널
@@ -61,7 +58,6 @@ class WindowClass(QMainWindow, form_class) :
             ">{str(text)}</span></p></body></html>'''
         return fontset
 
-
 	# 작동시킬 함수들 작성
     ## 모드선택. 반복문 중단 역할도 함
     def modeSelect(self):
@@ -81,7 +77,7 @@ class WindowClass(QMainWindow, form_class) :
             self.maskWearNum = random.randint(0, 10) # <<<<<<< 마스크 착용자 수 할당
             self.maskNotWearNum = random.randint(0, 10) # <<<<<<< 마스크 미착용자 수 할당
 
-            # 마스크 착용, 미착용자 수 출력
+            # 마스크 착용, 미착용자 수 출력             #글씨체, 크기, 색, 내용
             self.maskWearersLabel.setText(self.fontSet('Malgun Gothic', 13, '#00ff7f', self.maskWearNum))
             self.maskNotWearersLabel.setText(self.fontSet('Malgun Gothic', 13, '#ff5454', self.maskNotWearNum))
             
@@ -99,8 +95,16 @@ class WindowClass(QMainWindow, form_class) :
                 else:
                     self.maskRateLabel.setText(self.fontSet('Malgun Gothic', 17, '#ff5454', str(self.maskWearRate) + '%'))
             else:
-                self.maskWearRate = "인원 없음"
-                self.maskRateLabel.setText(self.fontSet('Malgun Gothic', 13, 'white', self.maskWearRate))
+                self.maskWearRate = 100
+                self.maskRateLabel.setText(self.fontSet('Malgun Gothic', 13, 'white', "인원 없음"))
+
+            # N분 평균 착용자 수
+            self.maskRateList.append(self.maskWearRate)
+            maskWearAverage = int(sum(self.maskRateList)/len(self.maskRateList))
+            self.maskWearAverageLabel.setText(self.fontSet('Malgun Gothic', 17, 'white', str(maskWearAverage) + '%'))
+
+            if len(self.maskRateList) == 60:
+                self.maskRateList.pop(0)
                            
             time.sleep(0.5)
 
@@ -109,8 +113,7 @@ class WindowClass(QMainWindow, form_class) :
         self.mode_Select_Widget.hide()
         self.normal_Mode_Widget.show()
         self.pLabel.show()
-        self.nt = threading.Thread(target=self.normalProcess,args=())
-        self.nt.start()
+        threading.Thread(target=self.normalProcess,args=()).start()
         threading.Thread(target=self.camera,args=()).start()
     ## */ ###############################################################
 
@@ -133,8 +136,7 @@ class WindowClass(QMainWindow, form_class) :
         self.mode_Select_Widget.hide()
         self.guard_Mode_Widget.show()
         self.pLabel.show()
-        self.gt = threading.Thread(target=self.guardProcess,args=())
-        self.gt.start()
+        threading.Thread(target=self.guardProcess,args=()).start()
         threading.Thread(target=self.camera,args=()).start()
     ## */ ###############################################################
     def camera(self):
