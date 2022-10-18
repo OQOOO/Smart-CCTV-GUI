@@ -11,8 +11,6 @@ import random # 임시 표시용
 
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtGui import QMovie
-import pyqtgraph as pg
-
 
 # UI파일 연결
 form_class = uic.loadUiType("CCTV_GUI.ui")[0]
@@ -38,8 +36,6 @@ class WindowClass(QMainWindow, form_class) :
         self.y_list = [0 for i in range(0, 24)]
         self.timeCount = 0
 
-        # graph Test
-        self.showGraph()
         
         # 버튼 시그널
         ## 모드선택화면 위젯 시그널
@@ -119,18 +115,7 @@ class WindowClass(QMainWindow, form_class) :
                 font-size:13pt; 
                 color:white;
                 ">{self.maskWearRate}</span></p></body></html>''')            
-            
-            self.timeCount += 1
-            if self.timeCount == 24:
-                self.timeCount = 0
-                self.y_list = [0 for i in range(0, 24)]
-            if self.maskWearRate == "인원 없음":
-                pass
-            else:
-                self.y_list[self.timeCount] = self.maskWearRate
-            self.showGraph()
-            
-            time.sleep(1)
+            time.sleep(0.5)
 
     def normalMode(self):
         self.killSwitch = 0
@@ -165,6 +150,7 @@ class WindowClass(QMainWindow, form_class) :
                 ">움직임 없음</span></p></body></html>''')
 
             time.sleep(1)
+            
 
     def guardMode(self):
         self.killSwitch = 0
@@ -191,15 +177,6 @@ class WindowClass(QMainWindow, form_class) :
             pixmap = pixmap.scaledToWidth(500)
             self.pLabel.setPixmap(pixmap)
             time.sleep(1)
-
-    def showGraph(self):
-
-        self.graphWidget.setBackground((255,255,255,0))
-        self.graphWidget.clear()
-        self.graphWidget.plot(self.x_list, self.y_list, pen=pg.mkPen(color='#2196F3', width=1))
-
-    	
-
 
 if __name__ == "__main__" :
     app = QApplication(sys.argv)
