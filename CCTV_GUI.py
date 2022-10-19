@@ -30,8 +30,9 @@ class WindowClass(QMainWindow, form_class) :
         self.killSwitch = 0 # 반복문 제어용 변수
         self.maskWearNum = 0 # 마스크 쓴사람
         self.maskNotWearNum = 0 # 마스크 안쓴사람
+        self.totalPeopleNum = 0
         self.movement = False # 움직임 변수
-        self.maskRateList = []
+        self.timeCounter = 0
 
         # 버튼 시그널
         ## 모드선택화면 위젯 시그널
@@ -48,6 +49,7 @@ class WindowClass(QMainWindow, form_class) :
         self.endButton.clicked.connect(self.modeSelect)
         self.endButton.clicked.connect(QCoreApplication.instance().quit)
 
+    # 작동시킬 함수들 작성
     # 폰트 설정 함수
     def textSet(self, font, size, color, text):
         textSet = f'''
@@ -58,8 +60,7 @@ class WindowClass(QMainWindow, form_class) :
             ">{str(text)}</span></p></body></html>'''
         return textSet
 
-	# 작동시킬 함수들 작성
-    ## 모드선택. 반복문 중단 역할도 함
+    # 모드선택. 반복문 중단 역할도 함
     def modeSelect(self):
         self.killSwitch = 1
         self.normal_Mode_Widget.hide()
@@ -67,8 +68,37 @@ class WindowClass(QMainWindow, form_class) :
         self.pLabel.hide()
         self.mode_Select_Widget.show()
 
-    ## /* 일반모드 #######################################################
+    # /* 일반모드 #######################################################
+    
+    # ㅁㅁㅁ 마스크 착용률
+    def percentage(self):
+        if self.timeCounter % 1 == 0:
+            self.totalPeopleNum = self.maskWearNum + self.maskNotWearNum
+            ## 인원이 있다면
+            if self.totalPeopleNum:
+                self.maskWearRate = int(self.maskWearNum / (self.totalPeopleNum) * 100)
+                ## 비율이 x% 이상일 때
+                if 70 <= self.maskWearRate:
+                    self.maskRateLabel.setText(self.textSet('Malgun Gothic', 17, '#00ff7f', str(self.maskWearRate) + '%'))
+                elif 50 <= self.maskWearRate:
+                    self.maskRateLabel.setText(self.textSet('Malgun Gothic', 17, '#ffff7f', str(self.maskWearRate) + '%'))
+                else:
+                    self.maskRateLabel.setText(self.textSet('Malgun Gothic', 17, '#ff5454', str(self.maskWearRate) + '%'))
+            else:
+                self.maskWearRate = 100
+                self.maskRateLabel.setText(self.textSet('Malgun Gothic', 13, 'white', "인원 없음"))
+    
+    # ㅁㅁㅁ n분 평균 착용률
+    def nTimeAverage(self):
+        self.maskRateList.append(self.maskWearRate) # self.maskWearRate는 percentage함수에서 정의됨
+        maskWearAverage = int(sum(self.maskRateList)/len(self.maskRateList))
+        self.maskWearAverageLabel.setText(self.textSet('Malgun Gothic', 17, 'white', str(maskWearAverage) + '%'))
+        if len(self.maskRateList) == 60:
+            self.maskRateList.pop(0)
+
+    # ㅁㅁ 출력
     def normalProcess(self):
+        self.maskRateList = []
         while True:
             if self.killSwitch:
                 self.maskRateList.clear()
@@ -82,33 +112,16 @@ class WindowClass(QMainWindow, form_class) :
             self.maskWearersLabel.setText(self.textSet('Malgun Gothic', 13, '#00ff7f', self.maskWearNum))
             self.maskNotWearersLabel.setText(self.textSet('Malgun Gothic', 13, '#ff5454', self.maskNotWearNum))
             
-            # 마스크 착용률 출력
-            ## 인원 수 계산
-            totalPeopleNum = self.maskWearNum + self.maskNotWearNum
-            ## 인원이 있다면
-            if totalPeopleNum:
-                self.maskWearRate = int(self.maskWearNum / (totalPeopleNum) * 100)
-                ## 비율이 x% 이상일 때
-                if 70 <= self.maskWearRate:
-                    self.maskRateLabel.setText(self.textSet('Malgun Gothic', 17, '#00ff7f', str(self.maskWearRate) + '%'))
-                elif 50 <= self.maskWearRate < 70:
-                    self.maskRateLabel.setText(self.textSet('Malgun Gothic', 17, '#ffff7f', str(self.maskWearRate) + '%'))
-                else:
-                    self.maskRateLabel.setText(self.textSet('Malgun Gothic', 17, '#ff5454', str(self.maskWearRate) + '%'))
-            else:
-                self.maskWearRate = 100
-                self.maskRateLabel.setText(self.textSet('Malgun Gothic', 13, 'white', "인원 없음"))
+            # 쓰레드를 나눠놓지 않으면 화면 멈춤현상이 많아짐. 멈춤현상은 한 쓰레드에 출력하는 위젯 수와 관련있을것으로 예상
+            threading.Thread(target=self.percentage,args=()).start()
+            threading.Thread(target=self.nTimeAverage,args=()).start()
 
-            # N분 평균 착용자 수
-            self.maskRateList.append(self.maskWearRate)
-            maskWearAverage = int(sum(self.maskRateList)/len(self.maskRateList))
-            self.maskWearAverageLabel.setText(self.textSet('Malgun Gothic', 17, 'white', str(maskWearAverage) + '%'))
+            time.sleep(0.1)
+            self.timeCounter += 1
+            if self.timeCounter == 10000:
+                self.timeCounter = 0
 
-            if len(self.maskRateList) == 60:
-                self.maskRateList.pop(0)
-                           
-            time.sleep(0.3)
-
+    # ㅁ
     def normalMode(self):
         self.killSwitch = 0
         self.mode_Select_Widget.hide()
@@ -116,9 +129,9 @@ class WindowClass(QMainWindow, form_class) :
         self.pLabel.show()
         threading.Thread(target=self.normalProcess,args=()).start()
         threading.Thread(target=self.camera,args=()).start()
-    ## */ ###############################################################
+    # */ ###############################################################
 
-    ## /* 경계모드 #######################################################
+    # /* 경계모드 #######################################################
     def guardProcess(self):
         while True:
             if self.killSwitch:
