@@ -96,6 +96,11 @@ class WindowClass(QMainWindow, form_class) :
         if len(self.maskRateList) == 60:
             self.maskRateList.pop(0)
 
+    # ㅁㅁㅁ 마스크 미착용자 수
+    def maskNotWearers(self):
+        self.maskNotWearNum = random.randint(0, 10) # <<<<<<< 마스크 미착용자 수 할당
+        self.maskNotWearersLabel.setText(self.textSet('Malgun Gothic', 13, '#ff5454', self.maskNotWearNum))
+
     # ㅁㅁ 출력
     def normalProcess(self):
         self.maskRateList = []
@@ -106,17 +111,16 @@ class WindowClass(QMainWindow, form_class) :
 
             # 마스크 유무 변수 받기
             self.maskWearNum = random.randint(0, 10) # <<<<<<< 마스크 착용자 수 할당
-            self.maskNotWearNum = random.randint(0, 10) # <<<<<<< 마스크 미착용자 수 할당
-
+            
             # 마스크 착용, 미착용자 수 출력             #글씨체, 크기, 색, 내용
             self.maskWearersLabel.setText(self.textSet('Malgun Gothic', 13, '#00ff7f', self.maskWearNum))
-            self.maskNotWearersLabel.setText(self.textSet('Malgun Gothic', 13, '#ff5454', self.maskNotWearNum))
             
             # 쓰레드를 나눠놓지 않으면 화면 멈춤현상이 많아짐. 멈춤현상은 한 쓰레드에 출력하는 위젯 수와 관련있을것으로 예상
+            threading.Thread(target=self.maskNotWearers,args=()).start()
             threading.Thread(target=self.percentage,args=()).start()
             threading.Thread(target=self.nTimeAverage,args=()).start()
 
-            time.sleep(0.1)
+            time.sleep(0.0001)
             self.timeCounter += 1
             if self.timeCounter == 10000:
                 self.timeCounter = 0
