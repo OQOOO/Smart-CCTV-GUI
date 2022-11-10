@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1064</width>
-    <height>732</height>
+    <width>1242</width>
+    <height>726</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -58,7 +58,7 @@
      <x>740</x>
      <y>10</y>
      <width>301</width>
-     <height>361</height>
+     <height>301</height>
     </rect>
    </property>
    <widget class="QPushButton" name="mode_Select_Button">
@@ -210,13 +210,39 @@
     </property>
    </widget>
   </widget>
+  <widget class="QPushButton" name="endButton">
+   <property name="geometry">
+    <rect>
+     <x>1090</x>
+     <y>650</y>
+     <width>111</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>종료</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="pLabel">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>20</y>
+     <width>701</width>
+     <height>521</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>pLabel</string>
+   </property>
+  </widget>
   <widget class="QWidget" name="guard_Mode_Widget" native="true">
    <property name="geometry">
     <rect>
      <x>740</x>
-     <y>380</y>
-     <width>301</width>
-     <height>231</height>
+     <y>320</y>
+     <width>431</width>
+     <height>281</height>
     </rect>
    </property>
    <widget class="QPushButton" name="mode_Select_Button_2">
@@ -229,7 +255,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>모드선택</string>
+     <string>경계모드종료</string>
     </property>
    </widget>
    <widget class="QLabel" name="guardModeLabel">
@@ -249,7 +275,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>50</y>
+      <y>100</y>
       <width>171</width>
       <height>51</height>
      </rect>
@@ -261,38 +287,35 @@
      <enum>Qt::AutoText</enum>
     </property>
    </widget>
-  </widget>
-  <widget class="QPushButton" name="endButton">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>680</y>
-     <width>111</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>종료</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="pLabel">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>80</y>
-     <width>701</width>
-     <height>461</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>pLabel</string>
-   </property>
+   <widget class="QLineEdit" name="passwordLineEdit">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>60</y>
+      <width>181</width>
+      <height>21</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="passwordButton">
+    <property name="geometry">
+     <rect>
+      <x>200</x>
+      <y>60</y>
+      <width>93</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>PushButton</string>
+    </property>
+   </widget>
   </widget>
   <zorder>pLabel</zorder>
   <zorder>mode_Select_Widget</zorder>
   <zorder>normal_Mode_Widget</zorder>
-  <zorder>guard_Mode_Widget</zorder>
   <zorder>endButton</zorder>
+  <zorder>guard_Mode_Widget</zorder>
  </widget>
  <resources/>
  <connections/>

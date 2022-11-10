@@ -33,6 +33,9 @@ class WindowClass(QMainWindow, form_class) :
         self.totalPeopleNum = 0
         self.movement = False # 움직임 변수
         self.timeCounter = 0
+        self.oneSecond = 0
+
+        self.passDisplayCnt = 0
 
         # 버튼 시그널
         ## 모드선택화면 위젯 시그널
@@ -43,7 +46,8 @@ class WindowClass(QMainWindow, form_class) :
         self.mode_Select_Button.clicked.connect(self.modeSelect)
 
         ## 경계모드 위젯 시그널
-        self.mode_Select_Button_2.clicked.connect(self.modeSelect)
+        self.mode_Select_Button_2.clicked.connect(self.displayPasswordInput)
+        self.passwordButton.clicked.connect(self.passwordFunc)
         
         ## 종료버튼
         self.endButton.clicked.connect(self.modeSelect)
@@ -81,7 +85,7 @@ class WindowClass(QMainWindow, form_class) :
                 if 70 <= self.maskWearRate:
                     self.maskRateLabel.setText(self.textSet('Malgun Gothic', 17, '#00ff7f', str(self.maskWearRate) + '%'))
                 elif 50 <= self.maskWearRate:
-                    self.maskRateLabel.setText(self.textSet('Malgun Gothic', 17, '#ffff7f', str(self.maskWearRate) + '%'))
+                    self.maskRateLabel.setText(self.textSet('Malgun Gothic', 17, '#ffcc00', str(self.maskWearRate) + '%'))
                 else:
                     self.maskRateLabel.setText(self.textSet('Malgun Gothic', 17, '#ff5454', str(self.maskWearRate) + '%'))
             else:
@@ -93,7 +97,7 @@ class WindowClass(QMainWindow, form_class) :
         self.maskRateList.append(self.maskWearRate) # self.maskWearRate는 percentage함수에서 정의됨
         maskWearAverage = int(sum(self.maskRateList)/len(self.maskRateList))
         self.maskWearAverageLabel.setText(self.textSet('Malgun Gothic', 17, 'white', str(maskWearAverage) + '%'))
-        if len(self.maskRateList) == 60:
+        if len(self.maskRateList) >= 60 * self.oneSecond:
             self.maskRateList.pop(0)
 
     # ㅁㅁㅁ 마스크 미착용자 수
@@ -120,7 +124,11 @@ class WindowClass(QMainWindow, form_class) :
             threading.Thread(target=self.percentage,args=()).start()
             threading.Thread(target=self.nTimeAverage,args=()).start()
 
-            time.sleep(0.0001)
+            # 1초 계산
+            tSleep = 0.01
+            time.sleep(tSleep)
+            self.oneSecond = 1 / tSleep
+            
             self.timeCounter += 1
             if self.timeCounter == 10000:
                 self.timeCounter = 0
@@ -149,14 +157,46 @@ class WindowClass(QMainWindow, form_class) :
 
             time.sleep(1)
             
-
     def guardMode(self):
         self.killSwitch = 0
         self.mode_Select_Widget.hide()
         self.guard_Mode_Widget.show()
         self.pLabel.show()
+
+        # 비밀번호 입력창 숨기기
+        self.passwordLineEdit.hide()
+        self.passwordButton.hide()
+
         threading.Thread(target=self.guardProcess,args=()).start()
         threading.Thread(target=self.camera,args=()).start()
+
+    # 비밀번호 입력창 화면 표시 제어
+    def displayPasswordInput(self):
+        if self.passDisplayCnt == 0:
+            self.passwordLineEdit.show()
+            self.passwordButton.show()
+            self.passDisplayCnt = 1
+            self.mode_Select_Button_2.setText("취소")
+        else:
+            self.passwordLineEdit.hide()
+            self.passwordButton.hide()
+            self.passDisplayCnt = 0
+            self.mode_Select_Button_2.setText("경계모드종료")
+
+    def passwordFunc(self):
+        # 비밀번호가 맞았을때 화면 전환
+        ## 메뉴로 이동 버튼 누를때 숨겨졌던 입력창, 버튼 표시 (사전에 감춰놓기)
+        # 메뉴 말고 다른 함수 실행
+        ### 비밀번호 맞을경우 버튼 누루면 메뉴로 이동
+
+        password = "1234"
+        ipt = self.passwordLineEdit.text()
+        if password == ipt:
+            print("통과")
+            self.modeSelect()
+        else:
+            print("잘못입력")
+            
     ## */ ###############################################################
 
     def camera(self):
@@ -167,14 +207,14 @@ class WindowClass(QMainWindow, form_class) :
             pixmap = pixmap.scaledToWidth(700)
             self.pLabel.setPixmap(pixmap)
             time.sleep(1)
-            '''pixmap = QPixmap('test2.jpg')
+            pixmap = QPixmap('test2.jpg')
             pixmap = pixmap.scaledToWidth(700)
             self.pLabel.setPixmap(pixmap)
             time.sleep(1)
             pixmap = QPixmap('test3.png')
             pixmap = pixmap.scaledToWidth(700)
             self.pLabel.setPixmap(pixmap)
-            time.sleep(1)'''
+            time.sleep(1)
 
 if __name__ == "__main__" :
     app = QApplication(sys.argv)
