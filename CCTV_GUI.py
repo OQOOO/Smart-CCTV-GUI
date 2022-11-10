@@ -190,10 +190,10 @@ class WindowClass(QMainWindow, form_class) :
         password = "1234"
         ipt = self.passwordLineEdit.text() # 입력창의 값 받아오기
         if password == ipt:
-            #print("통과")
+            print("통과")
             self.modeSelect()
-        #else:
-            #print("잘못입력")
+        else:
+            print("잘못입력")
             
     ## */ ###############################################################
 
@@ -204,7 +204,8 @@ class WindowClass(QMainWindow, form_class) :
             pixmap = QPixmap('test1.jpg')
             pixmap = pixmap.scaledToWidth(700)
             self.pLabel.setPixmap(pixmap)
-            ''' time.sleep(1)   
+            time.sleep(1)
+            '''
             pixmap = QPixmap('test2.jpg')
             pixmap = pixmap.scaledToWidth(700)
             self.pLabel.setPixmap(pixmap)
