@@ -35,6 +35,7 @@ class WindowClass(QMainWindow, form_class) :
         self.timeCounter = 0
         self.oneSecond = 0
 
+        '''(추가) 비밀번호 버튼 텍스트 변경용 변수'''
         self.passDisplayCnt = 0
 
         # 버튼 시그널
@@ -46,7 +47,9 @@ class WindowClass(QMainWindow, form_class) :
         self.mode_Select_Button.clicked.connect(self.modeSelect)
 
         ## 경계모드 위젯 시그널
+        '''(변경) 비밀번호 입력창 화면에 표시'''
         self.mode_Select_Button_2.clicked.connect(self.displayPasswordInput)
+        '''(추가) 비밀번호 입력 버튼'''
         self.passwordButton.clicked.connect(self.passwordFunc)
         
         ## 종료버튼
@@ -154,7 +157,6 @@ class WindowClass(QMainWindow, form_class) :
                 self.movementLabel.setText(self.textSet('Malgun Gothic', 16, '#ff5454', '움직임 감지!!!'))
             else:
                 self.movementLabel.setText(self.textSet('Malgun Gothic', 16, '#00ff7f', '움직임 없음'))
-
             time.sleep(1)
             
     def guardMode(self):
@@ -163,14 +165,14 @@ class WindowClass(QMainWindow, form_class) :
         self.guard_Mode_Widget.show()
         self.pLabel.show()
 
-        # 비밀번호 입력창 숨기기
+        '''(추가) 비밀번호 입력창 숨기기 '''
         self.passwordLineEdit.hide()
         self.passwordButton.hide()
 
         threading.Thread(target=self.guardProcess,args=()).start()
         threading.Thread(target=self.camera,args=()).start()
 
-    # 비밀번호 입력창 화면 표시 제어
+    '''(추가) 비밀번호 입력창 화면 표시 제어'''
     def displayPasswordInput(self):
         if self.passDisplayCnt == 0:
             self.passwordLineEdit.show()
@@ -183,19 +185,15 @@ class WindowClass(QMainWindow, form_class) :
             self.passDisplayCnt = 0
             self.mode_Select_Button_2.setText("경계모드종료")
 
+    '''(추가) 입력값 받아서 맞는 비밀번호인지 확인'''
     def passwordFunc(self):
-        # 비밀번호가 맞았을때 화면 전환
-        ## 메뉴로 이동 버튼 누를때 숨겨졌던 입력창, 버튼 표시 (사전에 감춰놓기)
-        # 메뉴 말고 다른 함수 실행
-        ### 비밀번호 맞을경우 버튼 누루면 메뉴로 이동
-
         password = "1234"
-        ipt = self.passwordLineEdit.text()
+        ipt = self.passwordLineEdit.text() # 입력창의 값 받아오기
         if password == ipt:
-            print("통과")
+            #print("통과")
             self.modeSelect()
-        else:
-            print("잘못입력")
+        #else:
+            #print("잘못입력")
             
     ## */ ###############################################################
 
@@ -206,7 +204,7 @@ class WindowClass(QMainWindow, form_class) :
             pixmap = QPixmap('test1.jpg')
             pixmap = pixmap.scaledToWidth(700)
             self.pLabel.setPixmap(pixmap)
-            time.sleep(1)
+            ''' time.sleep(1)   
             pixmap = QPixmap('test2.jpg')
             pixmap = pixmap.scaledToWidth(700)
             self.pLabel.setPixmap(pixmap)
@@ -214,7 +212,7 @@ class WindowClass(QMainWindow, form_class) :
             pixmap = QPixmap('test3.png')
             pixmap = pixmap.scaledToWidth(700)
             self.pLabel.setPixmap(pixmap)
-            time.sleep(1)
+            time.sleep(1)'''
 
 if __name__ == "__main__" :
     app = QApplication(sys.argv)
